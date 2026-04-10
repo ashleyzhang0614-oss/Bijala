@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bijala 3×3 内容战略框架</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-deep-maroon: #8a0e24;
+      --color-forest-red: #CC1638;
+      --color-bg: #f3f1ed;
+      --color-card-bg: #fafaf8;
+      --color-text: #1a1a1a;
+      --color-text-light: #555555;
+      --color-border: rgba(0, 0, 0, 0.07);
+      --color-callout-bg: rgba(138, 14, 36, 0.04);
+      --radius: 14px;
+      --section-padding: 5rem 2rem;
+      --container-max: 1300px;
+      --body-line-height: 1.7;
+    }
+
+    body {
+      font-family: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: var(--body-line-height);
+      padding-bottom: 6rem;
+    }
+
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+    }
+
+    section {
+      padding: var(--section-padding);
+    }
+
+    .kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-deep-maroon);
+      margin-bottom: 0.8rem;
+    }
+
+    .kicker::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-forest-red);
+    }
+
+    h1 {font-size: 2.8rem; font-weight:700; line-height:1.2; margin-bottom:1.5rem}
+    h2 {font-size: 2.2rem; font-weight:700; margin-bottom:1.2rem; margin-top:2.5rem}
+    h3 {font-size: 1.5rem; font-weight:700; margin-bottom:1rem; margin-top:2rem; color:var(--color-deep-maroon)}
+    h4 {font-size: 1.2rem; font-weight:700; margin:1.2rem 0 0.8rem}
+
+    p {font-size:1.05rem; color:var(--color-text-light); max-width:860px; margin-bottom:1rem}
+    ul,ol {color:var(--color-text-light); padding-left:1.6rem; margin-bottom:1rem}
+    li {margin-bottom:0.5rem}
+
+/* 表格样式：取消固定限制，随内容自适应 */
+table {
+  width: auto; /* 取消100%宽度，表格宽度随内容走 */
+  border-collapse: collapse;
+  margin: 1.8rem 0;
+  background: var(--color-card-bg);
+  border-radius: var(--radius);
+  overflow: visible; /* 取消溢出隐藏，避免图片被裁 */
+  display: inline-block; /* 让表格宽度自适应内容 */
+}
+
+th, td {
+  padding: 0.5rem; /* 减小内边距，避免单元格过大 */
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  width: auto; /* 单元格宽度随图片自适应 */
+  height: auto; /* 单元格高度随图片自适应 */
+}
+
+/* 表格内图片：取消固定高度，完整显示 */
+/* 图片并排容器：flex布局，两张图平分宽度 */
+.img-row {
+  display: flex;
+  gap: 0.8rem; /* 两张图之间的间距，可自行调整 */
+  width: 100%;
+}
+
+/* 表格内图片：自适应+完整显示（已优化，适配并排） */
+.table-img {
+  max-width:200px;
+  width: 100%; /* 平分容器宽度，两张图各占50% */
+  height: auto; /* 高度自动，按原图比例显示，不裁剪 */
+  object-fit: contain; /* 完整显示图片，不拉伸 */
+  border-radius: 8px;
+}
+
+/* 网格容器：控制4张图片排列（2x2 网格） */
+.img-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2列并列 */
+  gap: 10px; /* 图片之间的间距，按需调整 */
+  width: 100%;
+}
+
+.img-grid-4 .table-img {
+  width: 100%;
+  height: 220px; /* 固定高度，图片会按比例填充 */
+  object-fit: cover; /* 覆盖整个区域，可能裁剪边缘但比例不变 */
+  border-radius: 8px;
+}
+
+/* 表格样式：确保单元格能容纳并排图片 */
+table {
+  width: 100%; /* 表格占满父容器，避免过窄 */
+  border-collapse: collapse;
+  margin: 1.8rem 0;
+  background: var(--color-card-bg);
+  border-radius: var(--radius);
+  overflow: visible;
+}
+
+th, td {
+  padding: 1rem; /* 保留内边距，避免图片贴边 */
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle; /* 图片垂直居中 */
+  height: auto;
+}
+    .grid {
+      display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:2rem;
+    }
+    @media (max-width:1024px) {.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:768px) {
+      .grid{grid-template-columns:1fr}
+      h1{font-size:2.2rem} h2{font-size:1.8rem}
+      section{padding:3.5rem 1.5rem}
+      th,td{padding:1rem}
+    }
+
+    .card {
+      background:var(--color-card-bg); border:1px solid var(--color-border); border-radius:var(--radius);
+      padding:2.2rem; position:relative; overflow:hidden; height:100%;
+    }
+    .card::before {
+      content:""; position:absolute; top:0; left:0; width:100%; height:4px;
+      background-color:var(--color-forest-red);
+    }
+
+    .callout {
+      background:var(--color-callout-bg); border:1px solid var(--color-border);
+      border-radius:var(--radius); padding:2rem; margin:2.5rem 0;
+    }
+    .callout p {color:var(--color-text); font-weight:500}
+
+    .separator {
+      width:100%; height:1px; background:var(--color-border); margin:4rem 0; opacity:0.5;
+    }
+
+    .list-dot {list-style-type:disc}
+  </style>
+</head>
+<body>
+
+<section class="container">
+  <div class="kicker">Content Strategy</div>
+  <h1>Bijala 3×3 内容战略框架</h1>
+  <div class="callout">
+    <p>文化起源 · 现代转译 · 礼赠时刻 | Turn the Wheel, Turn Your Luck</p>
+  </div>
+</section>
+
+<div class="separator"></div>
+
+<section class="container">
+  <h2>维度一：文化起源 Sacred Origin</h2>
+  <p>强调文化根基，打造品牌壁垒，给用户买Bijala而非其他首饰的理由</p>
+  <h3>竞品空白</h3>
+  <p>Bijala有厚重的文化底蕴，相比于Van Cleef Arpels、Kate Spade仅以幸运符号为卖点，或是只讲能量功效的普通水晶品牌，Bijala的首饰承载了来自高原坛城仪式的真实祝福，来源与过程可溯，具备更可信、更神圣、更有力量的庇佑，让用户感觉更grounded and blessed，提升品牌可信度。</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>S1 坛城仪式</h3>
+      <p>Real Blessing孕育于Mandala Ritual耗时旬月的创作。从白沙的开凿，僧侣的开光，砂画的绘制，到圣沙的回拢，坛城仪式的赐福与庇佑都凝练于这捧白沙。</p>
+      <p><strong>核心意向：</strong></p>
+      <ul class="list-dot">
+        <li>砂田采砂</li>
+        <li>开光仪式</li>
+        <li>坛城沙画绘制</li>
+        <li>白沙回拢与传递</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>S2 寺庙僧侣</h3>
+      <p>Devout Prayer，Mandala之所以能承载高原最纯洁、美好、神圣的祝福，在于创作它的人与场域。六百年历经霜雪的古庙，经年累月虔诚苦修的高僧，在日复一日的吟诵祈福中，将万古千秋的祈祷与保佑都融入砂画之中。</p>
+      <p><strong>核心意向：</strong></p>
+      <ul class="list-dot">
+        <li>修行日常：祈祷念经、修缮清扫寺庙、行走于寺庙间</li>
+        <li>建筑特写：远/全/中/近景、藏地特色建筑细节（佛像、佛塔、转经筒、红墙等）</li>
+        <li>藏地住民：虔诚朝拜、观礼的</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>S3 高原剪影</h3>
+      <p>Mandala来自5000米海拔之上的青藏高原，离尘世最远，离天堂最近，也是无数人心中最神圣的人间天堂。此处万物有灵、生生不息，承载着天地间最纯洁美好的能量，一呼一吸间尽是信仰。</p>
+      <p><strong>核心意向：</strong></p>
+      <ul class="list-dot">
+        <li>雪山岩石、旷野草甸、河流</li>
+        <li>野生动物、牧民</li>
+        <li>五色经幡风马旗、玛尼石</li>
+        <li>松林、格桑花</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>内容结构（Reels / Carousal）</h3>
+  <ul class="list-dot">
+    <li>主要元素与画面场景：基于现有素材库，展现Bijala的坛城文化起源</li>
+    <li>颜色风格：画面色彩更加轻盈、明亮、柔和，有呼吸感，传递青藏高原纯净、圣洁、自由的能量磁场</li>
+    <li>情绪表达：追求放松自在、净化身心、从容舒适、宁静悠远的画面美感享受</li>
+    <li>结构模版：【风景+坛城沙画】
+      <ul class="list-dot">
+        <li>S2/3高原剪映、寺庙僧侣的核心意向中选取3-4个进行混剪快切（2s）</li>
+        <li>僧人砂田采砂/开光仪式/端坐、持诵、落笔绘沙坛城（2s）</li>
+        <li>展示坛城砂画之美，坛城砂画的全/中/近/特写（2s）</li>
+        <li>仪式完成，轻扫沙粒，流入铜钵，递予Bijala（2s）</li>
+        <li>品牌logo和core message浮现（1s）</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>视觉风格参考</h3>
+  <table>
+    <tr>
+      <th>现在</th>
+      <th>未来</th>
+      <th>视觉参考</th>
+    </tr>
+    <tr>
+      <td><img src="1.png" class="table-img"></td>
+      <td><img src="2.png" class="table-img"></td>
+      <td>
+  <div class="img-row">
+    <img src="3.png" class="table-img">
+    <img src="4.png" class="table-img">
+  </div>
+</td>
+    </tr>
+  </table>
+</section>
+
+<div class="separator"></div>
+
+<section class="container">
+  <!-- 维度二：现代转译 Modern Translation -->
+<section class="container">
+  <h2>维度二：现代转译 Modern Translation</h2>
+  <p>进行美学教育与输出，消除宗教珠宝“土、沉重、搭配难”的刻板印象，降低用户购买决策门槛。</p>
+
+  <h3>竞品空白</h3>
+  <p>念珠、手串、天珠等传统宗教类饰物设计的宗教意味太强，宗教元素突出，严肃沉重，与现代审美脱节，难以融入都市日常生活与穿搭使用场景。以各类木头、水晶为原材料的能量首饰，设计往往过于粗放，审美与品牌价值低，且使用者往往被打上“迷信/玄学”标签，使高端客群望而却步。Bijala承载坛城沙的真实祝福，通过独有的转动仪式，让用户感觉更稳、更顺、更自信强大，抢占“personal ground”这一心里锚点，同时利用现代设计工艺技巧，将Sand Mandala东方宗教哲学转译为现代审美设计，打破现有市场“高级感or祝福/意义”的结构性取舍，使高级珠宝轻松融入日常穿搭，解决用户的搭配难题。以“易搭配+真祝福”降低用户购买决策门槛。</p>
+
+  <!-- M1 单列模块 -->
+  <div class="card" style="margin-bottom: 2rem;">
+    <h3>M1 产品细节</h3>
+    <p>从“无形真实祝福”到“有形高级设计”。全方位展示Bijala吊坠的结构、内部封存的沙粒细节，以及现代设计。用产品细节大图证明Bijala不是普通饰品，也不是宗教符号，而是承载坛城彩沙祝福，同时拥有现代审美设计的纽约高端珠宝品牌。</p>
+    <p><strong>核心目标：</strong>呈现吊坠沙石（real blessing）与现代设计细节（real beauty）</p>
+    
+    <h4>内容结构一（Reels）</h4>
+    <ul class="list-dot">
+      <li>主要元素与画面场景：以珠宝剪影为取景框，利用吊坠的意向承载高原风光，展现圣洁、美好、流动的高原风景，在呈现产品形态的同时，体现Bijala珠宝神圣的文化起源与审美意境。</li>
+      <li>颜色风格：色调轻盈、柔和、明亮，以白黄绿蓝等象征生机的浅色亮色为主</li>
+    </ul>
+
+    <!-- M1 产品细节：修正后的表格（Qeelin四宫格，Bijala单图） -->
+<table>
+  <tr>
+    <th>Jo Malone</th>
+    <th>Bijala</th>
+  </tr>
+  <tr>
+    <!-- Jo Malone列：2张图片（2×2网格） -->
+    <td>
+      <div class="img-grid-4">
+        <img src="5.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="12.png" class="table-img" alt="Qeelin 细节图 2">
+      </div>
+    </td>
+ <!--Bijala列：2张图片（2×2网格） -->
+    <td>
+      <div class="img-grid-4">
+        <img src="7.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="13.png" class="table-img" alt="Qeelin 细节图 2">
+      </div>
+    </td>
+  </tr>
+</table>
+
+    <h4>内容结构二（Carousal）</h4>
+    <ul class="list-dot">
+      <li>画面内容：融合利用AI/影棚布景，制作产品细节图。以背景、画面点缀元素体现藏区文化基因的同时，画面中心突出Bijala珠宝的现代设计。</li>
+      <li>颜色风格：以Bijala品牌标志色为主线，色彩符号鲜明。画面多采用砖红、暖黄、墨绿等暖色调，契合藏区文化基因，整体视觉风格与画面质感简约现代且典雅。</li>
+    </ul>
+    <p><strong>背景元素：</strong></p>
+    <ul class="list-dot">
+      <li>巧用沙石。将沙石意向与bijala珠宝牢牢绑定，制造一种“源头与成果”并存、“从高原到现代”的视觉冲击。拍摄时可以将五色原沙撒在吊坠周围，或是摆放承载白沙的容器。</li>
+      <li>高原文化/自然意向布景。可多采用粗颗粒的白砂/晶石、铜钵、藏纸、羊毛毯、格桑花、松枝为布景和画面点缀。通过原始天然、源于藏区文化的背景材质衬托Bijala始于五千米高原的文化出身。</li>
+      <li>强调光影流动。利用转经筒、经幡风马旗、酥油灯、柔光纱、柔光灯、丝绸等器具来制造光影效果，体现朦胧神圣美好的氛围与Bijala承载的能量流动之感。</li>
+    </ul>
+
+<table>
+  <tr>
+    <th>Qeelin</th>
+    <th>Bijala（根据产品渲染图修改）</th>
+  </tr>
+   <!-- Qeelin列：4张图片（2×2网格） -->
+    <td>
+      <div class="img-grid-4">
+        <img src="6.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="9.png" class="table-img" alt="Qeelin 细节图 2">
+        <img src="10.png" class="table-img" alt="Qeelin 细节图 3">
+        <img src="11.png" class="table-img" alt="Qeelin 细节图 4">
+      </div>
+    </td>
+    <!-- Bijala列：仅1张图片 -->
+    <td><img src="8.png" class="table-img"></td>
+  </tr>
+</table>
+  </div>
+
+  <!-- M2、M3 并列模块 -->
+  <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="card">
+      <h3>M2 搭配教学</h3>
+      <p>不仅“真实”，更加“审美兼容”。围绕Bijala珠宝的上身效果，以及与其他首饰的叠穿搭配效果展开，体现Bijala作为东方哲学珠宝的现代审美兼容性。百搭、极简、利落、高级，没有穿搭与风格门槛，降低核心客群的购买决策难度——你不需要特意搭配，Bijala能完美融入你的首饰柜。</p>
+      <ul class="list-dot">
+        <li>场景内容：模特采用【老-中-青】三代女性，捕捉Bijala首饰融入消费者日常穿搭的画面，通过建立“东方禅意+现代优雅”的生活方式与审美情趣的标准，吸引具有相同审美的客群。展示场景聚焦核心礼赠人群的日常穿搭、使用场景，将产品植入生活场景以弱化“带货感”，建立优雅、高级、简洁的视觉印象。</li>
+        <li>画面元素：聚焦模特的手、颈、胸口、锁骨等部位而非面部，模特简约穿搭，材质高级（棉麻、真丝、羊毛）。背景以自然化/生活化场景为主，避免刻意棚拍场景，利用柔和自然光的层次丰富、过渡自然的明暗对比，增加画面的立体感和电影感。</li>
+        <li>情绪：模特动作自然放松，呈现真实佩戴状态，塑造松弛、优雅的日常高级感，体现自信从容的气场状态，以“日常感、亲和感”拉近与消费者的距离。</li>
+        <li>颜色风格：根据Bijala吊坠的沙砾颜色，锚定画面主色调，将彩砂五色打造为鲜明、可一眼识别的色彩符号。模特服饰呼应吊坠沙粒的品牌色，同色系或低饱和撞色，让Bijala珠宝成为画面唯一高光。</li>
+      </ul>
+
+      <h4>视觉参考</h4>
+      <table>
+        <tr>
+    <td>
+      <div class="img-grid-4">
+        <img src="14.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="15.png" class="table-img" alt="Qeelin 细节图 2">
+        <img src="16.png" class="table-img" alt="Qeelin 细节图 3">
+        <img src="17.png" class="table-img" alt="Qeelin 细节图 4">
+      </div>
+    </td>
+        </tr>
+      </table>
+
+      <h4>脚本示例（Reels）</h4>
+      <p>结构【4s用户场景+5s珠宝细节展示】</p>
+      <ul class="list-dot">
+        <li>全景：模特脖颈间佩戴Bijala吊坠，手轻持咖啡杯，递至嘴边，光影随手部动作轻轻流转。（2s）</li>
+        <li>特写：手部特写，镜头跟随手部向侧方移动，露出脖间佩戴的珠宝细节。（2s）</li>
+        <li>中景：镜头聚焦模特侧颈与肩膀，捕捉模特手部轻抬，触摸颈部的项链的动作。以伦勃朗光，突出皮肤质感与珠宝光泽。（1s）</li>
+        <li>特写：手指捏住吊坠两端项链并抻开，展示吊坠正反面细节。微距镜头精准锁定在吊坠。（2s）</li>
+        <li>近景：聚焦模特锁骨处项链，呈现Bijala吊坠之美，品牌logo和core message浮现（2s）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>M3 转动仪式</h3>
+      <p>Turn the Wheel，Turn Your Luck，这不是玄学，而是个人最易执行的赋能仪式。反复刻画不同人群下意识抚摸吊坠的动作——Bijala独有的“视觉锤”，强化Spiritual Jewelry的定位。Bijala不是千篇一律、符号化、缺少灵魂的普通高珠，而是携带了真实祝福，在每次触摸、旋转吊坠中，能给用户提供情绪价值与精神支撑的首饰。Bijala不仅美，更承载了真实的庇护与赐福。</p>
+      <ul class="list-dot">
+        <li>场景内容：着重展示在不同生活场景下，手部轻触抚摸吊坠这一“视觉锤”，强调佩戴Bijala珠宝给用户带来的心理慰藉。模特采用【老-中-青】三代女性，拍摄制作上可以和M2的场景一脉相承，通过剪辑实现素材复用。</li>
+        <li>画面元素：以核心目标群体的生活化场景为主，刻画整体场景而非身体佩戴细节局部（区别于M2）。模特动作松弛大方，优雅干练。</li>
+        <li>情绪：体现自信从容的气场状态，传达出佩戴Bijala使自己更为grounded、empowered之感，强化Bijala Spiritual Jewelry的用户心智。</li>
+        <li>颜色风格：柔和通透，低饱和度的大地色系，平和、温暖、包容，激发“被托举”的安定感与力量感。以及浅蓝、浅绿色系，纯净、通透，彰显理性，传达冷静、从容、克制的视觉感受。</li>
+      </ul>
+
+      <h4>脚本示例</h4>
+      <p>① 结构一：【3s用户场景+3s视觉锤画面】</p>
+      <ul class="list-dot">
+        <li>全景：站在会议室门前，模特手捧着汇报，材料深呼吸，面容略带焦虑。（2s）</li>
+        <li>特写：模特右手食指与大拇指自然地捏住Bijala吊坠，指尖在吊坠边缘轻缓摩挲，吊坠在指尖发力下轻微旋转。（2s）</li>
+        <li>特写：模特垂眸，目光落在指尖拨弄的吊坠上，神情平和，镜头聚焦嘴角轻轻微笑的弧度。（1s）</li>
+        <li>中景：模特自信坚定地推开会议室大门，走入</li>
+        <li>近景：画面虚焦，品牌logo和core message浮现（2s）</li>
+      </ul>
+      <p>② 结构二：【5s上下分屏-场景对比】</p>
+      <ul class="list-dot">
+        <li>上半部分是Bijala的青藏素材</li>
+        <li>下半部分是AI生成的用户日常佩戴场景。</li>
+        <li>最后蒙太奇上拉，用户场景全屏。</li>
+        <li>纯黑底 + 品牌logo和slogan</li>
+      </ul>
+
+      <table>
+       <th>Foundrae、sophieratner_jewelry</th>
+        <tr>
+ <td>
+      <div class="img-grid-2">
+        <img src="18.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="19.png" class="table-img" alt="Qeelin 细节图 2">
+      </div>
+    </tr>
+          </tr>
+      </table>
+    </div>
+  </div>
+</section>
+<div class="separator"></div>
+
+<section class="container">
+  <h2>维度三：礼赠时刻 Meaningful Gift</h2>
+  <p>刻画送礼场景，可视化Bijala的佩戴效果“爱与祝福的传承闭环”，激发共鸣，实现购买转化</p>
+  <div class="grid">
+    <div class="card">
+      <h3>G1 自我礼赠</h3>
+      <p>面向25-40岁，初入职场或正力争上游的职场精英女性，状态管理极其重要，需要一个可重复触达的心理锚点，重获内心的力量、自信与平静。在关键场景中，展现她们佩戴bijala吊坠与无意识抚摸吊坠的动作，游刃有余、容光焕发、自信强大的领导者状态</p>
+      <p><strong>核心场景：</strong></p>
+      <ul class="list-dot">
+        <li>职场：重大面试/商务谈判签约/关键汇报/核心会议/咖啡馆办公</li>
+        <li>社交：名流晚宴/午后茶歇/看展交流</li>
+        <li>生活：约会/精英运动/长途飞行/独处悦己</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>G2 异地伴侣</h3>
+      <p>远距离情感中，她们需要需要一份礼物表达自己对方无言的爱恋、挂怀与思念。bijala承载着真实祝福，不仅让对方的生活更顺更稳，每次触摸吊坠更是一次思念的共振——吊坠中的沙来自同一份土地，你们共享通一份祝福。从青藏到纽约，这份白沙的祝福穿越了半球；现在由你再次赠出，替你传达逾山越海的心意，生生不息，永远流动，绵延无尽。</p>
+      <p><strong>核心场景：</strong></p>
+      <ul class="list-dot">
+        <li>分别：机场 / 火车站</li>
+        <li>日常相处碎片：居家休闲 / 外出约会</li>
+        <li>重逢：奔赴彼此的赶路途中 / 机场车站见面</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>G3 守护家人</h3>
+      <p>总有些她们无法时刻在场、守护所爱的时候，无法亲身参与家人的高光时刻，或是陪伴他们度过低谷时期，她需要的不仅是一件贵重的首饰来表达爱与在乎，而是更需要一份需要承载祝福与庇护的礼物替她们陪伴、见证，而bijala吊坠的每一次抚摸与转动，都是一次轻柔但坚定地提醒“我在”。</p>
+      <p><strong>核心场景：</strong></p>
+      <ul class="list-dot">
+        <li>高光时刻：孩子第一次表演/演讲/比赛、关键考试、毕业升学、独立出行</li>
+        <li>需要陪伴：孩子生病、父母体检手术</li>
+        <li>日常守护：老年人散步、翻看相册、养护花草</li>
+      </ul>
+    </div>
+  </div>
+
+  <ul class="list-dot">
+    <li>场景内容：叙事主线为【将属于我的Bijala祝福庇佑，传递给父母、孩子、爱人、朋友，让他们也感觉到被支撑被关爱】。利用跨代际叙事讲述祝福的代际传承，以爱的闭环强化Meaningful Gift的定位。不将镜头直接对准珠宝，而是让珠宝在人物的身体接触中自然出现，交谈、耳语、拥抱、亲吻、牵手、抚摸，将Bijala珠宝作为用户情感的物理延伸。以情感化叙事，激发用户的购买冲动——我想要把这份祝福语与庇护立刻传递给我爱的人。人物年龄带涵盖老-中-青。一个场景主题下的长视频可以多次剪辑复用。</li>
+    <li>画面元素：在G1-G3核心目标群体的关键场景下，呈现整体场景、故事主线。同时在其间插入身体佩戴细节切片镜头与轻触抚摸吊坠这一“视觉锤”，体现Bijala带给佩戴者的心理慰藉。Bijala珠宝随动作自然呈现，如拥抱时锁骨处项链晃动微光，耳语时手指虚拢胸口项链，为对方佩戴时手部扣链动作等等。</li>
+    <li>情绪：在轻触抚摸吊坠这一动作应展现出情绪从焦虑紧张到从容自信的转化。人物互动中饱含真挚爱意，传递出深层感情链接的美好愉悦，激发用户共鸣</li>
+    <li>颜色风格：柔和通透的大地色系，营造温暖、温馨的氛围。配合砖红、深蓝、墨绿等高饱和色系，强化珠宝的贵气感的同时传递安定感与力量感</li>
+  </ul>
+
+  <h3>视觉参考</h3>
+  <th>Azzafahmy、sophieratner_jewelry</th>
+        <tr>
+ <td>
+      <div class="img-grid-2">
+        <img src="20.png" class="table-img" alt="Qeelin 细节图 1">
+        <img src="21.png" class="table-img" alt="Qeelin 细节图 2">
+      </div>
+    </tr>
+          </tr>
+      </table>
+    </div>
+  </div>
+</section>
+<div class="separator"></div>
+<!-- 总结：终极修复版（所有文字100%纯白+紧凑+缩小方块） -->
+<section style="background-color: #8a0e24; padding: 3.5rem 2rem; margin: 3rem auto; border-radius: 16px; max-width: 900px; text-align: center;">
+  <div class="container">
+    <!-- 标题：强制纯白 -->
+    <h2 style="color: #ffffff !important; font-size: 2.4rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.2; margin-top: 0;">Content Strategy Summary</h2>
+    
+    <!-- 核心维度：逐行强制纯白 -->
+    <div style="font-size: 1.5rem; line-height: 1.8; font-weight: 700; margin-bottom: 1.5rem;">
+      <p style="color: #ffffff !important; margin: 0.4rem 0; padding: 0;">文化起源 · 坛城仪式 / 寺庙僧侣 / 高原剪影</p>
+      <p style="color: #ffffff !important; margin: 0.4rem 0; padding: 0;">现代转译 · 产品细节 / 搭配教学 / 转动仪式</p>
+      <p style="color: #ffffff !important; margin: 0.4rem 0; padding: 0;">礼赠时刻 · 自我礼赠 / 异地伴侣 / 守护家人</p>
+    </div>
+    
+    <!-- 核心口号：强制纯白 -->
+    <div style="font-size: 1.8rem; line-height: 1.6; font-weight: 700; margin-bottom: 2rem;">
+      <p style="color: #ffffff !important; margin: 0.3rem 0; padding: 0;">Turn the Wheel</p>
+      <p style="color: #ffffff !important; margin: 0.3rem 0; padding: 0;">Turn Your Luck</p>
+    </div>
+    
+    <!-- 视觉锤：强制纯白 -->
+    <p style="color: #ffffff !important; font-size: 1.3rem; font-weight: 600; margin: 0; padding: 0;">视觉锤：指尖触摸、拨动吊坠，吊坠转动的特写。</p>
+  </div>
+</section>
+
+<!-- Core message：下方独立模块 -->
+<section class="container" style="margin-top: 2rem;">
+  <div class="card" style="padding: 2rem; border-radius: 16px;">
+    <h2 style="margin-top: 0; margin-bottom: 1.5rem;">Core message</h2>
+    <ul class="list-dot" style="font-size: 1.1rem; line-height: 1.8; padding-left: 1.5rem;">
+      <li><strong>Real Beauty, Real Blessing</strong> (产品特征：美与祝福)</li>
+      <li><strong>Turn the Wheel, Turn your luck</strong> (核心场景与动作)</li>
+      <li><strong>Don’t just get luck, get blessed</strong> (差异化)</li>
+      <li><strong>From roof of the world, To the palm of your hand</strong> (青藏文化根源)</li>
+    </ul>
+  </div>
+</section>
+</body>
+</html>
